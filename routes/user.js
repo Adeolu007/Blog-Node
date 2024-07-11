@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const {registerUser, getSingleUser, getUsers, deleteUser, loginUser} = require('../controllers/user')
-const {createPost} = require('../controllers/post')
+const {createPost,getAllPost,getSinglePost} = require('../controllers/post')
+const {createComment} = require('../controllers/comment')
 
 //users
 router.route('/register').post(registerUser)
@@ -11,5 +12,10 @@ router.route('/login').post(loginUser)
 
 //post
 router.route('/post/create').post(createPost)
+router.route('/post').get(getAllPost)
+router.route('/post/:id').get(getSinglePost)
 
+
+// comment
+router.route('/comment/create').post(createComment)
 module.exports = router

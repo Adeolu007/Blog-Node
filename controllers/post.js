@@ -1,5 +1,6 @@
 const express = require('express')
 const Post = require('../models/Post')
+const User = require('../models/User')
 
 
 const createPost = async (req, res)=>{
@@ -25,6 +26,35 @@ const createPost = async (req, res)=>{
     }
 };
 
+const getAllPost = async (req, res) => {
+    try {
+        const postList = await Post.find();
+        await (consle.log(postList))
+
+        if (!postList) {
+            return res.status(404).json({ success: false, message: 'No posts found' });
+        }
+
+        res.status(200).json({ success: true, posts: postList });
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+};
+
+const getSinglePost =  async (req, res) =>{
+    const post = await Post.findById(req.params.id)
+
+    if(!post) {
+        res.status(500).json({success: false})
+    } 
+    res.send(post);
+}
+
+
+
 module.exports = {
-    createPost
+    createPost,
+    getAllPost,
+    getSinglePost
 }
