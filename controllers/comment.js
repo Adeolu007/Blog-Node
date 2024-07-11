@@ -37,29 +37,29 @@ const createComment = async (req, res) => {
     }
 };
 
-// const getSingleComment = async (req, res) => {
-//     try {
-//         const commentId = req.params.id;
+const getSingleComment = async (req, res) => {
+    try {
+        const commentId = req.params.id;
 
-//         // Find the comment by its ID
-//         const comment = await Comment.findById(commentId);
+        // Find the comment by its ID
+        const comment = await Comment.findById(commentId);
 
-//         if (!comment) {
-//             return res.status(404).json({ success: false, message: 'Comment not found' });
-//         }
+        if (!comment) {
+            return res.status(404).json({ success: false, message: 'Comment not found' });
+        }
 
-//         // Populate the 'author' and 'post' fields in the comment
-//         await comment.populate('author', 'username email').populate('post', 'title').execPopulate();
+        // Populate the 'author' and 'post' fields in the comment
+        //await comment.populate('author', 'username email').populate('post', 'title').execPopulate();
 
-//         res.status(200).json({
-//             success: true,
-//             comment,
-//         });
-//     } catch (error) {
-//         console.error('Error fetching comment:', error);
-//         res.status(500).json({ success: false, error: error.message });
-//     }
-// };
+        res.status(200).json({
+            success: true,
+            comment,
+        });
+    } catch (error) {
+        console.error('Error fetching comment:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+};
 
 // const getAllCommentsForPost = async (req, res) => {
 //     try {
@@ -88,5 +88,6 @@ const createComment = async (req, res) => {
 
 
 module.exports = {
-    createComment
+    createComment,
+    getSingleComment
 }
