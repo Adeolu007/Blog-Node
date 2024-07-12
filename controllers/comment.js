@@ -61,33 +61,40 @@ const getSingleComment = async (req, res) => {
     }
 };
 
-// const getAllCommentsForPost = async (req, res) => {
+
+//check this method please
+const getAllCommentsForPost = async (req, res) => {
+    const postId = req.params.postId; // Assuming postId is passed as a route parameter
+    console.log(postId);
+
+    try {
+        const comments = await Comment.find({ postId })
+            .populate('author'); // Populate author field with username only
+
+        console.log(comments);
+        res.status(200).json({ success: true, comments });
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+};
+// const getAllCommentsForPost = async(req, res) => {
+//     const {postId} = req.body;
+//     console.log(postId)
 //     try {
-//         const postId = req.params.postId;
-
-//         // Find all comments related to the specified post
-//         const comments = await Comment.find({ post: postId });
-
-//         if (!comments || comments.length === 0) {
-//             return res.status(404).json({ success: false, message: 'No comments found for the post' });
-//         }
-
-//         // Populate the 'author' and 'post' fields in each comment
-//         await Comment.populate(comments, { path: 'author', select: 'username email' });
-//         await Comment.populate(comments, { path: 'post', select: 'title' });
-
-//         res.status(200).json({
-//             success: true,
-//             comments,
-//         });
+//         const comments = await Comment.find({ postId });
+//         console.log(postId)
+//         console.log(comments)
+//         return comments;
 //     } catch (error) {
 //         console.error('Error fetching comments:', error);
-//         res.status(500).json({ success: false, error: error.message });
+//         throw error;
 //     }
-// };
+// }
 
 
 module.exports = {
     createComment,
-    getSingleComment
+    getSingleComment,
+    getAllCommentsForPost
 }
